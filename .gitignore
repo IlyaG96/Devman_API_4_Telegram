@@ -1,0 +1,6 @@
+__pycache__
+.idea
+testcase.py
+.env
+venv
+photos
