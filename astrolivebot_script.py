@@ -1,12 +1,12 @@
-from dotenv import load_dotenv
 from os import listdir
 import telegram
 import time
-import os
 
 
 
-def send_text_message_tg(bot: telegram.Bot) -> None:
+def send_text_message_tg(bot: telegram.Bot,
+                         CHAT_ID: str,
+                         ) -> None:
     """
     future function to send photo's descriptions
     :param bot: telegram.Bot object
@@ -26,9 +26,11 @@ def generate_pictures_base(PHOTO_PATH: str) -> list:
 
 
 def send_picture_tg(PHOTO_PATH: str,
+                    CHAT_ID: str,
                     bot: telegram.Bot,
                     files_base: list,
-                    delay = 86400):
+                    delay = 86400,
+                    ):
     """
 
     :param PHOTO_PATH:
@@ -43,12 +45,3 @@ def send_picture_tg(PHOTO_PATH: str,
             time.sleep(delay)
 
 
-if __name__ == '__main__':
-    load_dotenv()
-    TG_TOKEN = os.getenv("TELEGRAM_TOKEN")
-    PHOTO_PATH = os.getenv("PHOTO_PATH")
-    CHAT_ID = os.getenv("CHAT_ID")
-    DELAY_CUSTOM = int(os.getenv("DELAY_CUSTOM"))
-    bot = telegram.Bot(token=TG_TOKEN)
-    files_base = generate_pictures_base(PHOTO_PATH)
-    send_picture_tg(PHOTO_PATH, bot, files_base, delay=DELAY_CUSTOM)

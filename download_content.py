@@ -2,7 +2,6 @@ import os
 import pathlib
 import requests
 from datetime import datetime
-from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 
@@ -37,8 +36,12 @@ def get_nasa_apod(NASA_TOKEN: str) -> list:
         "thumbs": "True"
                }
     response = requests.get(url, params=payload)
-    urls = [picture["url"] for picture in response.json()]
-    return urls
+    try:
+        urls = [picture["url"] for picture in response.json()]
+        return urls
+    except KeyError:
+        get_nasa_apod(NASA_TOKEN)
+
 
 
 def get_nasa_epic(NASA_TOKEN: str) -> list:
@@ -59,7 +62,7 @@ def get_nasa_epic(NASA_TOKEN: str) -> list:
     return urls
 
 
-def show_extension(url:str) -> str:
+def show_extension(url: str) -> str:
     """
 
     :param url:
@@ -71,31 +74,26 @@ def show_extension(url:str) -> str:
     return extension
 
 
-def download_pictures(urls: list):
+def download_pictures(urls: list,
+                      PHOTO_PATH: str):
     """
 
     :param urls:
     :return:
     """
-    for number, url in enumerate(urls):
-        extension = show_extension(url)
-        filename = f"nasa{number}{extension}"
-        try:
+    try:
+        for number, url in enumerate(urls):
+            extension = show_extension(url)
+            filename = f"nasa{number}{extension}"
             download_image(url, PHOTO_PATH, filename)
-        except Exception as e:
-            print(e)
-            continue
+    except TypeError:
+        pass
 
 
-if __name__ == '__main__':
-    load_dotenv()
-    NASA_TOKEN = os.getenv("NASA_TOKEN")
-    PHOTO_PATH = os.getenv("PHOTO_PATH")
-    urls = get_nasa_apod(NASA_TOKEN)
-    download_pictures(urls)
-# if not photos: download new photos
-# Возможно, стоит удалять отправленные фото?
-# Добавить возможность отправки описаний фотографий
+
+
+
+
 
 
 
