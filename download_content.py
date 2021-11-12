@@ -15,6 +15,7 @@ def download_image(url: str,
     :param filename:
     :return:
     """
+
     pathlib.Path(PHOTO_PATH).mkdir(parents=True, exist_ok=True)
 
     response = requests.get(url)
@@ -32,7 +33,7 @@ def get_nasa_apod(NASA_TOKEN: str) -> list:
     """
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_TOKEN}"
     payload = {
-        "count": "50",
+        "count": "5",
         "thumbs": "True"
                }
     response = requests.get(url, params=payload)
@@ -41,7 +42,6 @@ def get_nasa_apod(NASA_TOKEN: str) -> list:
         return urls
     except KeyError:
         get_nasa_apod(NASA_TOKEN)
-
 
 
 def get_nasa_epic(NASA_TOKEN: str) -> list:
@@ -79,6 +79,7 @@ def download_pictures(urls: list,
     """
 
     :param urls:
+    :param PHOTO_PATH:
     :return:
     """
     try:

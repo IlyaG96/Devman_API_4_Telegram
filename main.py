@@ -7,7 +7,11 @@ import telegram
 from argparse import ArgumentParser
 
 
-def main():
+def main() -> None:
+    """
+
+    :return: None
+    """
     parser = ArgumentParser(description='Chose mode')
     parser.add_argument('mode', help="Enter mode (bot or data)")
     mode = parser.parse_args().mode
