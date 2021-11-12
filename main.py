@@ -79,7 +79,6 @@ if __name__ == '__main__':
     NASA_TOKEN = os.getenv("NASA_TOKEN")
     PHOTO_PATH = os.getenv("PHOTO_PATH")
     urls = get_nasa_apod(NASA_TOKEN)
-    print(urls)
     download_pictures(urls)
 
 
