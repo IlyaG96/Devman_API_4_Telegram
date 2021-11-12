@@ -1,9 +1,9 @@
-import time
-
 from dotenv import load_dotenv
 from os import listdir
-import os
 import telegram
+import time
+import os
+
 
 
 def send_text_message_tg(bot: telegram.Bot) -> None:
@@ -36,6 +36,7 @@ def send_picture_tg(PHOTO_PATH: str,
     :param files_base:
     :return:
     """
+
     while True:
         for file in files_base:
             bot.send_photo(chat_id=CHAT_ID, photo=open(f"{PHOTO_PATH}{file}", 'rb'))

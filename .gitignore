@@ -1,6 +1,7 @@
 __pycache__
 .idea
 testcase.py
+leftovers.py
 .env
 venv
 photos

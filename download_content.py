@@ -1,14 +1,21 @@
-import requests
-import pathlib
-from urllib.parse import urlparse
-from datetime import datetime
 import os
+import pathlib
+import requests
+from datetime import datetime
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 
 def download_image(url: str,
                    PHOTO_PATH: str,
-                   filename):
+                   filename: str) -> None:
+    """
+
+    :param url:
+    :param PHOTO_PATH:
+    :param filename:
+    :return:
+    """
     pathlib.Path(PHOTO_PATH).mkdir(parents=True, exist_ok=True)
 
     response = requests.get(url)
@@ -18,21 +25,12 @@ def download_image(url: str,
         file.write(response.content)
 
 
-def get_info_spacex():
+def get_nasa_apod(NASA_TOKEN: str) -> list:
+    """
 
-    response = requests.get("https://api.spacexdata.com/v3/launches/64")
-    image_links = (response.json()['links']['flickr_images'])
-
-    return image_links
-
-
-def fetch_spacex_launch(image_links):
-    for url_number, url in enumerate(image_links):
-        filename = f"{url_number}.jpg"
-        download_image(url, PHOTO_PATH, filename)
-
-
-def get_nasa_apod(NASA_TOKEN):
+    :param NASA_TOKEN:
+    :return:
+    """
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_TOKEN}"
     payload = {
         "count": "50",
@@ -43,7 +41,12 @@ def get_nasa_apod(NASA_TOKEN):
     return urls
 
 
-def get_nasa_epic(NASA_TOKEN):
+def get_nasa_epic(NASA_TOKEN: str) -> list:
+    """
+
+    :param NASA_TOKEN:
+    :return:
+    """
     urls =[]
     address = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={NASA_TOKEN}"
     response = requests.get(address)
@@ -56,14 +59,24 @@ def get_nasa_epic(NASA_TOKEN):
     return urls
 
 
-def show_extension(url):
+def show_extension(url:str) -> str:
+    """
+
+    :param url:
+    :return:
+    """
     url_path = urlparse(url).path
     path = os.path.split(url_path)[1]
     extension = os.path.splitext(path)[1]
     return extension
 
 
-def download_pictures(urls):
+def download_pictures(urls: list):
+    """
+
+    :param urls:
+    :return:
+    """
     for number, url in enumerate(urls):
         extension = show_extension(url)
         filename = f"nasa{number}{extension}"
@@ -80,7 +93,9 @@ if __name__ == '__main__':
     PHOTO_PATH = os.getenv("PHOTO_PATH")
     urls = get_nasa_apod(NASA_TOKEN)
     download_pictures(urls)
-
+# if not photos: download new photos
+# Возможно, стоит удалять отправленные фото?
+# Добавить возможность отправки описаний фотографий
 
 
 
