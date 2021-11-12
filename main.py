@@ -32,7 +32,7 @@ def fetch_spacex_launch(image_links):
         download_image(url, PHOTO_PATH, filename)
 
 
-def get_NASA_apod(NASA_TOKEN):
+def get_nasa_apod(NASA_TOKEN):
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_TOKEN}"
     payload = {
         "count": "50",
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     load_dotenv()
     NASA_TOKEN = os.getenv("NASA_TOKEN")
     PHOTO_PATH = os.getenv("PHOTO_PATH")
-    urls = get_NASA_apod(NASA_TOKEN)
+    urls = get_nasa_apod(NASA_TOKEN)
     print(urls)
     download_pictures(urls)
 
