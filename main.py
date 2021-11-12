@@ -1,15 +1,15 @@
-import sys
-import astrolivebot_script
-import download_content
 import os
+import sys
 import dotenv
 import telegram
+import download_content
+import astrolivebot_script
 from argparse import ArgumentParser
 
 
 def main() -> None:
     """
-
+    Defines the behavior of the script depending on the command line argument
     :return: None
     """
     parser = ArgumentParser(description='Chose mode')

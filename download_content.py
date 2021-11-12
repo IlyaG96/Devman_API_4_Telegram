@@ -9,11 +9,12 @@ def download_image(url: str,
                    PHOTO_PATH: str,
                    filename: str) -> None:
     """
+    downloads one picture
 
-    :param url:
-    :param PHOTO_PATH:
-    :param filename:
-    :return:
+    :param url: link to picture
+    :param PHOTO_PATH: path to the folder with pictures
+    :param filename: name of file
+    :return: None
     """
 
     pathlib.Path(PHOTO_PATH).mkdir(parents=True, exist_ok=True)
@@ -27,10 +28,17 @@ def download_image(url: str,
 
 def get_nasa_apod(NASA_TOKEN: str) -> list:
     """
+    Tries to get a list of links with pictures, if it doesn't work, tries again
 
-    :param NASA_TOKEN:
-    :return:
+    :param NASA_TOKEN: NASA API Token
+    :return: list with links
+
+    :example
+
+    urls = [url1.jpg, url2.jpg, someurl.gif] etc.
+
     """
+
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_TOKEN}"
     payload = {
         "count": "5",
@@ -46,9 +54,9 @@ def get_nasa_apod(NASA_TOKEN: str) -> list:
 
 def get_nasa_epic(NASA_TOKEN: str) -> list:
     """
-
-    :param NASA_TOKEN:
-    :return:
+    Tries to get a list of links with EPIC Earth pictures.
+    :param NASA_TOKEN: NASA API Token
+    :return: list with links
     """
     urls =[]
     address = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={NASA_TOKEN}"
@@ -64,10 +72,17 @@ def get_nasa_epic(NASA_TOKEN: str) -> list:
 
 def show_extension(url: str) -> str:
     """
+    Specifies the file extension
 
-    :param url:
-    :return:
+    :param url: link to the file
+    :return: str extension of the file
+
+    :example
+
+    url = "https://example.com/txt/hello%20world.txt?v=9#python"
+    returns .txt
     """
+
     url_path = urlparse(url).path
     path = os.path.split(url_path)[1]
     extension = os.path.splitext(path)[1]
@@ -78,9 +93,9 @@ def download_pictures(urls: list,
                       PHOTO_PATH: str):
     """
 
-    :param urls:
-    :param PHOTO_PATH:
-    :return:
+    :param urls: list with links
+    :param PHOTO_PATH: path to the folder with pictures
+    :return: None
     """
     try:
         for number, url in enumerate(urls):
