@@ -28,20 +28,20 @@ def generate_pictures_base(PHOTO_PATH: str) -> list:
 def send_picture_tg(PHOTO_PATH: str,
                     CHAT_ID: str,
                     bot: telegram.Bot,
-                    files_base: list,
+                    pictures_base: list,
                     delay = 86400,
                     ):
     """
-
-    :param PHOTO_PATH:
-    :param bot:
-    :param files_base:
-    :return:
+    Sends pictures to telegrams with a selected delay
+    :param PHOTO_PATH: .env variable - directory with your photos
+    :param bot: telegram.Bot object
+    :param pictures_base: list with pictures names
+    :return: None
     """
 
     while True:
-        for file in files_base:
-            bot.send_photo(chat_id=CHAT_ID, photo=open(f"{PHOTO_PATH}{file}", 'rb'))
+        for picture in pictures_base:
+            bot.send_photo(chat_id=CHAT_ID, photo=open(f"{PHOTO_PATH}{picture}", 'rb'))
             time.sleep(delay)
 
 
