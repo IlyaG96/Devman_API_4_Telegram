@@ -15,29 +15,30 @@ def main() -> None:
     parser = ArgumentParser(description='Chose mode')
     parser.add_argument('mode', help="Enter mode (bot or data)")
     mode = parser.parse_args().mode
+
+    dotenv.load_dotenv()
+    nasa_token = os.getenv("NASA_TOKEN")
+    tg_token = os.getenv("TELEGRAM_TOKEN")
+    photo_path = os.getenv("PHOTO_PATH")
+    chat_id = os.getenv("CHAT_ID")
+    delay_custom = int(os.getenv("DELAY_CUSTOM", default=86400))
+    bot = telegram.Bot(token=tg_token)
+
     if mode not in ("bot", "data"):
         sys.exit("Wrong mode. Please use 'bot' or 'data")
+
     elif mode == "bot":
-        files_base = astrolivebot_script.generate_pictures_base(PHOTO_PATH)
-        astrolivebot_script.send_picture_tg(PHOTO_PATH, CHAT_ID, bot, files_base, delay=DELAY_CUSTOM)
+        files_base = astrolivebot_script.generate_pictures_base(photo_path)
+        astrolivebot_script.send_picture_tg(photo_path,
+                                            chat_id,
+                                            bot,
+                                            files_base,
+                                            delay=delay_custom)
     else:
-        urls = download_content.get_nasa_apod(NASA_TOKEN)
-        download_content.download_pictures(urls, PHOTO_PATH)
+        urls = download_content.get_nasa_apod(nasa_token)
+        download_content.download_pictures(urls,
+                                           photo_path)
 
 
 if __name__ == '__main__':
-    dotenv.load_dotenv()
-    NASA_TOKEN = os.getenv("NASA_TOKEN")
-    TG_TOKEN = os.getenv("TELEGRAM_TOKEN")
-    PHOTO_PATH = os.getenv("PHOTO_PATH")
-    CHAT_ID = os.getenv("CHAT_ID")
-    DELAY_CUSTOM = int(os.getenv("DELAY_CUSTOM"))
-    bot = telegram.Bot(token=TG_TOKEN)
     main()
-
-
-
-
-
-
-
