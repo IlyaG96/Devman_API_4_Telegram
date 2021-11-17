@@ -12,6 +12,7 @@ def main() -> None:
     Defines the behavior of the script depending on the command line argument
     :return: None
     """
+
     parser = ArgumentParser(description="Chose mode")
     parser.add_argument("mode", help="Enter mode (bot or data)")
     mode = parser.parse_args().mode
@@ -35,7 +36,8 @@ def main() -> None:
     else:
         urls = download_content.get_nasa_apod(nasa_token)
         download_content.download_pictures(urls,
-                                           photo_path)
+                                           photo_path,
+                                           nasa_token)
 
 
 if __name__ == "__main__":

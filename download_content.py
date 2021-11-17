@@ -7,19 +7,24 @@ from urllib.parse import urlparse
 
 def download_image(url: str,
                    photo_path: str,
-                   filename: str) -> None:
+                   filename: str,
+                   nasa_token: str) -> None:
     """
     downloads one picture
 
     :param url: link to picture
     :param photo_path: path to the folder with pictures
     :param filename: name of file
+    :param nasa_token: NASA API Token
+
     :return: None
     """
 
     pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
-
-    response = requests.get(url)
+    payload = {
+        "api_key": nasa_token
+    }
+    response = requests.get(url, params=payload)
     response.raise_for_status()
 
     with open(f"{photo_path}/{filename}", mode="wb") as file:
@@ -39,17 +44,16 @@ def get_nasa_apod(nasa_token: str) -> list:
 
     """
 
-    url = f"https://api.nasa.gov/planetary/apod?api_key={nasa_token}"
+    url = f"https://api.nasa.gov/planetary/apod"
     payload = {
-        "count": "5",
-        "thumbs": "True"
+        "count": "50",
+        "thumbs": "True",
+        "api_key": nasa_token
     }
     response = requests.get(url, params=payload)
-    try:
-        urls = [picture["url"] for picture in response.json()]
-        return urls
-    except KeyError:
-        get_nasa_apod(nasa_token)
+
+    urls = [picture["url"] for picture in response.json()]
+    return urls
 
 
 def get_nasa_epic(nasa_token: str) -> list:
@@ -58,14 +62,19 @@ def get_nasa_epic(nasa_token: str) -> list:
     :param nasa_token: NASA API Token
     :return: list with links
     """
+
     urls = []
-    address = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={nasa_token}"
-    response = requests.get(address)
+    payload = {
+        "api_key": nasa_token
+    }
+    address = f"https://api.nasa.gov/EPIC/api/natural/images"
+
+    response = requests.get(address, params=payload)
 
     for picture in response.json():
         name = picture["image"]
         date = datetime.fromisoformat(picture["date"]).date().strftime("%Y/%m/%d")
-        url = f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{name}.png?api_key={nasa_token}"
+        url = f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{name}.png"
         urls.append(url)
     return urls
 
@@ -90,17 +99,18 @@ def define_extension(url: str) -> str:
 
 
 def download_pictures(urls: list,
-                      photo_path: str):
+                      photo_path: str,
+                      nasa_token):
     """
 
     :param urls: list with links
     :param photo_path: path to the folder with pictures
+    :param nasa_token: NASA API Token
+
     :return: None
     """
-    try:
-        for number, url in enumerate(urls):
-            extension = define_extension(url)
-            filename = f"nasa{number}{extension}"
-            download_image(url, photo_path, filename)
-    except TypeError:
-        pass
+    for number, url in enumerate(urls):
+        extension = define_extension(url)
+        filename = f"nasa{number}{extension}"
+        if extension:
+            download_image(url, photo_path, filename, nasa_token)
