@@ -28,11 +28,9 @@ def main() -> None:
         sys.exit("Wrong mode. Please use 'bot' or 'data")
 
     elif mode == "bot":
-        files_base = astrolivebot_script.generate_pictures_base(photo_path)
         astrolivebot_script.send_picture_tg(photo_path,
                                             chat_id,
                                             bot,
-                                            files_base,
                                             delay=delay_custom)
     else:
         urls = download_content.get_nasa_apod(nasa_token)
