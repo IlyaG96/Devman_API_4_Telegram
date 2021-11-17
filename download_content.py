@@ -6,31 +6,31 @@ from urllib.parse import urlparse
 
 
 def download_image(url: str,
-                   PHOTO_PATH: str,
+                   photo_path: str,
                    filename: str) -> None:
     """
     downloads one picture
 
     :param url: link to picture
-    :param PHOTO_PATH: path to the folder with pictures
+    :param photo_path: path to the folder with pictures
     :param filename: name of file
     :return: None
     """
 
-    pathlib.Path(PHOTO_PATH).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
 
     response = requests.get(url)
     response.raise_for_status()
 
-    with open(f"{PHOTO_PATH}/{filename}", mode="wb") as file:
+    with open(f"{photo_path}/{filename}", mode="wb") as file:
         file.write(response.content)
 
 
-def get_nasa_apod(NASA_TOKEN: str) -> list:
+def get_nasa_apod(nasa_token: str) -> list:
     """
     Tries to get a list of links with pictures, if it doesn't work, tries again
 
-    :param NASA_TOKEN: NASA API Token
+    :param nasa_token: NASA API Token
     :return: list with links
 
     :example
@@ -39,7 +39,7 @@ def get_nasa_apod(NASA_TOKEN: str) -> list:
 
     """
 
-    url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_TOKEN}"
+    url = f"https://api.nasa.gov/planetary/apod?api_key={nasa_token}"
     payload = {
         "count": "5",
         "thumbs": "True"
@@ -49,23 +49,23 @@ def get_nasa_apod(NASA_TOKEN: str) -> list:
         urls = [picture["url"] for picture in response.json()]
         return urls
     except KeyError:
-        get_nasa_apod(NASA_TOKEN)
+        get_nasa_apod(nasa_token)
 
 
-def get_nasa_epic(NASA_TOKEN: str) -> list:
+def get_nasa_epic(nasa_token: str) -> list:
     """
     Tries to get a list of links with EPIC Earth pictures.
-    :param NASA_TOKEN: NASA API Token
+    :param nasa_token: NASA API Token
     :return: list with links
     """
     urls =[]
-    address = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={NASA_TOKEN}"
+    address = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={nasa_token}"
     response = requests.get(address)
 
     for picture in response.json():
         name = picture['image']
         date = datetime.fromisoformat(picture['date']).date().strftime('%Y/%m/%d')
-        url = f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{name}.png?api_key={NASA_TOKEN}"
+        url = f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{name}.png?api_key={nasa_token}"
         urls.append(url)
     return urls
 
@@ -90,32 +90,17 @@ def show_extension(url: str) -> str:
 
 
 def download_pictures(urls: list,
-                      PHOTO_PATH: str):
+                      photo_path: str):
     """
 
     :param urls: list with links
-    :param PHOTO_PATH: path to the folder with pictures
+    :param photo_path: path to the folder with pictures
     :return: None
     """
     try:
         for number, url in enumerate(urls):
             extension = show_extension(url)
             filename = f"nasa{number}{extension}"
-            download_image(url, PHOTO_PATH, filename)
+            download_image(url, photo_path, filename)
     except TypeError:
         pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

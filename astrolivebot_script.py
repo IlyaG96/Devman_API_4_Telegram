@@ -3,37 +3,25 @@ import telegram
 import time
 
 
-
-def send_text_message_tg(bot: telegram.Bot,
-                         CHAT_ID: str,
-                         ) -> None:
-    """
-    future function to send photo's descriptions
-    :param bot: telegram.Bot object
-    :return: None
-    """
-    bot.send_message(chat_id=CHAT_ID, text="Your text message")
-
-
-def generate_pictures_base(PHOTO_PATH: str) -> list:
+def generate_pictures_base(photo_path: str) -> list:
     """
     generates list that containing photo's names
-    :param PHOTO_PATH: .env variable - directory with your photos
+    :param photo_path: .env variable - directory with your photos
     :return: list with photos names
     """
-    pictures_base = listdir(PHOTO_PATH)
+    pictures_base = listdir(photo_path)
     return pictures_base
 
 
-def send_picture_tg(PHOTO_PATH: str,
-                    CHAT_ID: str,
+def send_picture_tg(photo_path: str,
+                    chat_id: str,
                     bot: telegram.Bot,
                     pictures_base: list,
                     delay = 86400,
                     ):
     """
     Sends pictures to telegrams with a selected delay
-    :param PHOTO_PATH: .env variable - directory with your photos
+    :param photo_path: .env variable - directory with your photos
     :param bot: telegram.Bot object
     :param pictures_base: list with pictures names
     :return: None
@@ -41,7 +29,5 @@ def send_picture_tg(PHOTO_PATH: str,
 
     while True:
         for picture in pictures_base:
-            bot.send_photo(chat_id=CHAT_ID, photo=open(f"{PHOTO_PATH}{picture}", 'rb'))
+            bot.send_photo(chat_id=chat_id, photo=open(f"{photo_path}{picture}", 'rb'))
             time.sleep(delay)
-
-
