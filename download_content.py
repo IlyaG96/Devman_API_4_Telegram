@@ -104,5 +104,3 @@ def download_pictures(urls: list,
             download_image(url, photo_path, filename)
     except TypeError:
         pass
-
-
