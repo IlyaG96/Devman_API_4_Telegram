@@ -12,8 +12,8 @@ def main() -> None:
     Defines the behavior of the script depending on the command line argument
     :return: None
     """
-    parser = ArgumentParser(description='Chose mode')
-    parser.add_argument('mode', help="Enter mode (bot or data)")
+    parser = ArgumentParser(description="Chose mode")
+    parser.add_argument("mode", help="Enter mode (bot or data)")
     mode = parser.parse_args().mode
 
     dotenv.load_dotenv()
@@ -25,7 +25,7 @@ def main() -> None:
     bot = telegram.Bot(token=tg_token)
 
     if mode not in ("bot", "data"):
-        sys.exit("Wrong mode. Please use 'bot' or 'data")
+        sys.exit("Wrong mode. Please use 'bot' or 'data'")
 
     elif mode == "bot":
         astrolivebot_script.send_picture_tg(photo_path,
@@ -38,5 +38,5 @@ def main() -> None:
                                            photo_path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

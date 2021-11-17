@@ -43,7 +43,7 @@ def get_nasa_apod(nasa_token: str) -> list:
     payload = {
         "count": "5",
         "thumbs": "True"
-               }
+    }
     response = requests.get(url, params=payload)
     try:
         urls = [picture["url"] for picture in response.json()]
@@ -58,19 +58,19 @@ def get_nasa_epic(nasa_token: str) -> list:
     :param nasa_token: NASA API Token
     :return: list with links
     """
-    urls =[]
+    urls = []
     address = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={nasa_token}"
     response = requests.get(address)
 
     for picture in response.json():
-        name = picture['image']
-        date = datetime.fromisoformat(picture['date']).date().strftime('%Y/%m/%d')
+        name = picture["image"]
+        date = datetime.fromisoformat(picture["date"]).date().strftime("%Y/%m/%d")
         url = f"https://api.nasa.gov/EPIC/archive/natural/{date}/png/{name}.png?api_key={nasa_token}"
         urls.append(url)
     return urls
 
 
-def show_extension(url: str) -> str:
+def define_extension(url: str) -> str:
     """
     Specifies the file extension
 
@@ -99,7 +99,7 @@ def download_pictures(urls: list,
     """
     try:
         for number, url in enumerate(urls):
-            extension = show_extension(url)
+            extension = define_extension(url)
             filename = f"nasa{number}{extension}"
             download_image(url, photo_path, filename)
     except TypeError:
