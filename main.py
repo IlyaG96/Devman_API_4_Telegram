@@ -9,7 +9,8 @@ from argparse import ArgumentParser
 
 def main() -> None:
     """
-    Defines the behavior of the script depending on the command line argument
+    Defines the behavior of the script depending on the command line argument,
+    loads .env variables
     :return: None
     """
 
