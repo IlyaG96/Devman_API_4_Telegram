@@ -3,7 +3,7 @@ import sys
 import dotenv
 import telegram
 import download_content
-import astrolivebot_script
+import astrolivebot
 from argparse import ArgumentParser
 
 
@@ -30,10 +30,10 @@ def main() -> None:
         sys.exit("Wrong mode. Please use 'bot' or 'data'")
 
     elif mode == "bot":
-        astrolivebot_script.send_picture_tg(photo_path,
-                                            chat_id,
-                                            bot,
-                                            delay=delay_custom)
+        astrolivebot.send_picture_tg(photo_path,
+                                     chat_id,
+                                     bot,
+                                     delay=delay_custom)
     else:
         urls = download_content.get_nasa_apod(nasa_token)
         download_content.download_nasa_images(urls,
