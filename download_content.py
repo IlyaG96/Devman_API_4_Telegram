@@ -25,7 +25,7 @@ def get_nasa_response(url: str,
     return response
 
 
-def download_image(photo_path: str,
+def save_image(photo_path: str,
                    filename: str,
                    response):
     """downloads one image
@@ -118,6 +118,7 @@ def download_nasa_images(urls: list,
 
     :return: None
     """
+
     pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
 
     for number, url in enumerate(urls):
@@ -125,4 +126,4 @@ def download_nasa_images(urls: list,
         filename = f"nasa{number}{extension}"
         response = get_nasa_response(url, nasa_token)
         if extension:
-            download_image(photo_path, filename, response)
+            save_image(photo_path, filename, response)
