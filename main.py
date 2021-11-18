@@ -36,9 +36,9 @@ def main() -> None:
                                             delay=delay_custom)
     else:
         urls = download_content.get_nasa_apod(nasa_token)
-        download_content.download_pictures(urls,
-                                           photo_path,
-                                           nasa_token)
+        download_content.download_nasa_images(urls,
+                                              photo_path,
+                                              nasa_token)
 
 
 if __name__ == "__main__":

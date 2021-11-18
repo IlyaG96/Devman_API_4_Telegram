@@ -5,28 +5,35 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 
-def download_image(url: str,
-                   photo_path: str,
-                   filename: str,
-                   nasa_token: str) -> None:
+def get_nasa_response(url: str,
+                      nasa_token: str):
     """
-    downloads one picture
+    Receives a response from NASA using an url from a list with urls
 
     :param url: link to picture
-    :param photo_path: path to the folder with pictures
-    :param filename: name of file
     :param nasa_token: NASA API Token
 
     :return: None
     """
 
-    pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
     payload = {
         "api_key": nasa_token
     }
     response = requests.get(url, params=payload)
     response.raise_for_status()
 
+    return response
+
+
+def download_image(photo_path: str,
+                   filename: str,
+                   response):
+    """downloads one image
+
+    :param photo_path: path to the folder with pictures
+    :param filename: name of file
+    :param response: response from NASA's site
+    """
     with open(f"{photo_path}/{filename}", mode="wb") as file:
         file.write(response.content)
 
@@ -51,6 +58,7 @@ def get_nasa_apod(nasa_token: str) -> list:
         "api_key": nasa_token
     }
     response = requests.get(url, params=payload)
+    response.raise_for_status()
 
     urls = [picture["url"] for picture in response.json()]
     return urls
@@ -70,6 +78,7 @@ def get_nasa_epic(nasa_token: str) -> list:
     address = f"https://api.nasa.gov/EPIC/api/natural/images"
 
     response = requests.get(address, params=payload)
+    response.raise_for_status()
 
     for picture in response.json():
         name = picture["image"]
@@ -98,9 +107,9 @@ def define_extension(url: str) -> str:
     return extension
 
 
-def download_pictures(urls: list,
-                      photo_path: str,
-                      nasa_token):
+def download_nasa_images(urls: list,
+                         photo_path: str,
+                         nasa_token):
     """
 
     :param urls: list with links
@@ -109,8 +118,11 @@ def download_pictures(urls: list,
 
     :return: None
     """
+    pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
+
     for number, url in enumerate(urls):
         extension = define_extension(url)
         filename = f"nasa{number}{extension}"
+        response = get_nasa_response(url, nasa_token)
         if extension:
-            download_image(url, photo_path, filename, nasa_token)
+            download_image(photo_path, filename, response)
