@@ -37,7 +37,7 @@ def main() -> None:
                                      delay=delay_custom)
 
     elif mode == "spacex_data":
-        urls = download_content.get_links_spacex(spacex_flight)
+        urls = download_content.get_spacex_links(spacex_flight)
         download_content.download_spacex_photos(photo_path, urls)
 
     else:

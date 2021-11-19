@@ -5,7 +5,7 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 
-def get_links_spacex(spacex_flight: str) -> list:
+def get_spacex_links(spacex_flight: str) -> list:
     """returns a list of links with photos from the flight
 
     :param spacex_flight: number of spacex_flight from .env
