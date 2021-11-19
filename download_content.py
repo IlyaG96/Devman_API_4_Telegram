@@ -5,6 +5,35 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 
+def get_links_spacex() -> list:
+    """returns a list of links to photos from the flight
+
+    :return: list with links
+    """
+    flight_number = 64
+    response = requests.get(f"https://api.spacexdata.com/v3/launches/{flight_number}")
+    response.raise_for_status()
+    urls = (response.json()['links']['flickr_images'])
+    return urls
+
+
+def download_spacex_photos(photo_path: str):
+    """downloads SPACEX images
+
+    :param photo_path:path to the folder with pictures
+    :return: None
+    """
+
+    pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
+    urls = get_links_spacex()
+
+    for number, url in enumerate(urls):
+        extension = define_extension(url)
+        filename = f"spacex{number}{extension}"
+        response = requests.get(url)
+        save_image(photo_path, filename, response)
+
+
 def get_nasa_response(url: str,
                       nasa_token: str):
     """
@@ -26,8 +55,8 @@ def get_nasa_response(url: str,
 
 
 def save_image(photo_path: str,
-                   filename: str,
-                   response):
+               filename: str,
+               response):
     """downloads one image
 
     :param photo_path: path to the folder with pictures
@@ -110,7 +139,7 @@ def define_extension(url: str) -> str:
 def download_nasa_images(urls: list,
                          photo_path: str,
                          nasa_token):
-    """
+    """downloads NASA's images
 
     :param urls: list with links
     :param photo_path: path to the folder with pictures
@@ -127,3 +156,6 @@ def download_nasa_images(urls: list,
         response = get_nasa_response(url, nasa_token)
         if extension:
             save_image(photo_path, filename, response)
+
+
+download_spacex_photos(photo_path="/Users/ilyagabdrakhmanov/PycharmProjects/Devman_API_4_Telegram/photos/")
