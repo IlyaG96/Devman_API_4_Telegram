@@ -14,9 +14,11 @@ pip install -r requirements.txt
 ```text
 NASA_TOKEN = "your_nasa_token"
 TELEGRAM_TOKEN = "your_telegram_token"
+SPACEX_FLIGHT = number of spacex flight
 CHAT_ID = "your_chat_bot_id"
 PHOTO_PATH = path/to/photos
 DELAY_CUSTOM = publish interval
+
 ```
 
 - Получить токен Телеграм:
