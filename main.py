@@ -41,7 +41,7 @@ def main() -> None:
         download_content.download_spacex_photos(photo_path, urls)
 
     else:
-        urls = download_content.create_nasa_apod_base(nasa_token)
+        urls = download_content.get_nasa_apod_urls(nasa_token)
         download_content.download_nasa_images(urls,
                                               photo_path,
                                               nasa_token)

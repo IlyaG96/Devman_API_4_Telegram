@@ -69,7 +69,7 @@ def save_image(photo_path: str,
         file.write(response.content)
 
 
-def create_nasa_apod_base(nasa_token: str) -> list:
+def get_nasa_apod_urls(nasa_token: str) -> list:
     """
     Tries to get a list of links with pictures, if it doesn't work, tries again
 
@@ -95,7 +95,7 @@ def create_nasa_apod_base(nasa_token: str) -> list:
     return urls
 
 
-def create_nasa_epic_base(nasa_token: str) -> list:
+def get_nasa_epic_urls(nasa_token: str) -> list:
     """
     Tries to get a list of links with EPIC Earth pictures.
     :param nasa_token: NASA API Token
