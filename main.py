@@ -20,6 +20,7 @@ def main() -> None:
 
     dotenv.load_dotenv()
     nasa_token = os.getenv("NASA_TOKEN")
+    spacex_flight = os.getenv("SPACEX_FLIGHT")
     tg_token = os.getenv("TELEGRAM_TOKEN")
     photo_path = os.getenv("PHOTO_PATH")
     chat_id = os.getenv("CHAT_ID")
@@ -36,7 +37,7 @@ def main() -> None:
                                      delay=delay_custom)
 
     elif mode == "spacex_data":
-        urls = download_content.get_links_spacex()
+        urls = download_content.get_links_spacex(spacex_flight)
         download_content.download_spacex_photos(photo_path, urls)
 
     else:

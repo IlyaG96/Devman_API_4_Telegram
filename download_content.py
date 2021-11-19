@@ -5,13 +5,14 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 
-def get_links_spacex() -> list:
+def get_links_spacex(spacex_flight: str) -> list:
     """returns a list of links with photos from the flight
 
+    :param spacex_flight: number of spacex_flight from .env
     :return: list with links
     """
-    flight_number = 64
-    response = requests.get(f"https://api.spacexdata.com/v3/launches/{flight_number}")
+
+    response = requests.get(f"https://api.spacexdata.com/v3/launches/{spacex_flight}")
     response.raise_for_status()
     urls = (response.json()['links']['flickr_images'])
     return urls
