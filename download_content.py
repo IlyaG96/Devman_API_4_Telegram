@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 
 def get_links_spacex() -> list:
-    """returns a list of links to photos from the flight
+    """returns a list of links with photos from the flight
 
     :return: list with links
     """
@@ -156,6 +156,3 @@ def download_nasa_images(urls: list,
         response = get_nasa_response(url, nasa_token)
         if extension:
             save_image(photo_path, filename, response)
-
-
-download_spacex_photos(photo_path="/Users/ilyagabdrakhmanov/PycharmProjects/Devman_API_4_Telegram/photos/")
