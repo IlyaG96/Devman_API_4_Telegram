@@ -28,7 +28,7 @@ def main() -> None:
     bot = telegram.Bot(token=tg_token)
 
     if mode not in ("bot", "nasa_data", "spacex_data"):
-        sys.exit("Wrong mode. Please use 'bot', 'nasa_data' or spacex_data")
+        sys.exit("Wrong mode. Please use 'bot', 'nasa_data' or 'spacex_data'")
 
     elif mode == "bot":
         astrolivebot.send_picture_tg(photo_path,

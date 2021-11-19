@@ -20,6 +20,8 @@ PHOTO_PATH = path/to/photos
 DELAY_CUSTOM = publish interval
 
 ```
+Примечание по SPACEX_FLIGHT. Не все запуски имеют фото, попробуйте 100 или 64. Или 99, например
+
 
 - Получить токен Телеграм:
   https://way23.ru/регистрация-бота-в-telegram.html
