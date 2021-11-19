@@ -15,7 +15,7 @@ def main() -> None:
     """
 
     parser = ArgumentParser(description="Chose mode")
-    parser.add_argument("mode", help="Enter mode (bot or data)")
+    parser.add_argument("mode", help="Enter mode (bot, nasa_data or spacex_data)")
     mode = parser.parse_args().mode
 
     dotenv.load_dotenv()
@@ -26,14 +26,19 @@ def main() -> None:
     delay_custom = int(os.getenv("DELAY_CUSTOM", default=86400))
     bot = telegram.Bot(token=tg_token)
 
-    if mode not in ("bot", "data"):
-        sys.exit("Wrong mode. Please use 'bot' or 'data'")
+    if mode not in ("bot", "nasa_data", "spacex_data"):
+        sys.exit("Wrong mode. Please use 'bot', 'nasa_data' or spacex_data")
 
     elif mode == "bot":
         astrolivebot.send_picture_tg(photo_path,
                                      chat_id,
                                      bot,
                                      delay=delay_custom)
+
+    elif mode == "spacex_data":
+        urls = download_content.get_links_spacex()
+        download_content.download_spacex_photos(photo_path, urls)
+
     else:
         urls = download_content.create_nasa_apod_base(nasa_token)
         download_content.download_nasa_images(urls,

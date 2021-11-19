@@ -17,15 +17,16 @@ def get_links_spacex() -> list:
     return urls
 
 
-def download_spacex_photos(photo_path: str):
+def download_spacex_photos(photo_path: str,
+                           urls: list):
     """downloads SPACEX images
 
     :param photo_path:path to the folder with pictures
+    :param urls: list with links
     :return: None
     """
 
     pathlib.Path(photo_path).mkdir(parents=True, exist_ok=True)
-    urls = get_links_spacex()
 
     for number, url in enumerate(urls):
         extension = define_extension(url)
