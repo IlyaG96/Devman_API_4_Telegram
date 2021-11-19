@@ -35,7 +35,7 @@ def main() -> None:
                                      bot,
                                      delay=delay_custom)
     else:
-        urls = download_content.get_nasa_apod(nasa_token)
+        urls = download_content.create_nasa_apod_base(nasa_token)
         download_content.download_nasa_images(urls,
                                               photo_path,
                                               nasa_token)

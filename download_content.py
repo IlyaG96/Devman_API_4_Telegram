@@ -38,7 +38,7 @@ def save_image(photo_path: str,
         file.write(response.content)
 
 
-def get_nasa_apod(nasa_token: str) -> list:
+def create_nasa_apod_base(nasa_token: str) -> list:
     """
     Tries to get a list of links with pictures, if it doesn't work, tries again
 
@@ -51,7 +51,7 @@ def get_nasa_apod(nasa_token: str) -> list:
 
     """
 
-    url = f"https://api.nasa.gov/planetary/apod"
+    url = "https://api.nasa.gov/planetary/apod"
     payload = {
         "count": "50",
         "thumbs": "True",
@@ -64,7 +64,7 @@ def get_nasa_apod(nasa_token: str) -> list:
     return urls
 
 
-def get_nasa_epic(nasa_token: str) -> list:
+def create_nasa_epic_base(nasa_token: str) -> list:
     """
     Tries to get a list of links with EPIC Earth pictures.
     :param nasa_token: NASA API Token
@@ -75,7 +75,7 @@ def get_nasa_epic(nasa_token: str) -> list:
     payload = {
         "api_key": nasa_token
     }
-    address = f"https://api.nasa.gov/EPIC/api/natural/images"
+    address = "https://api.nasa.gov/EPIC/api/natural/images"
 
     response = requests.get(address, params=payload)
     response.raise_for_status()
