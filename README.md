@@ -45,7 +45,7 @@ pyhon3 main.py spacex_data
 
 Для того, чтобы бот начал отправлять картинки, его нужно запустить
 ```bash
-pyhon3 main.py bot
+python3 main.py bot
 ```
 Бот будет отправлять все картинки из папки *photos* с интервалом CUSTOM_DELAY
 
